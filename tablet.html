@@ -40,8 +40,8 @@
     <script>
         const SUPABASE_URL = "https://nemzbtwpwgmpfncllqhd.supabase.co";
         const SUPABASE_KEY = "sb_publishable_vbZHxBhY0XK3ln33qCPBGg_kHi6NXRE";
-        const supabase = @supabase/supabase-js.createClient(SUPABASE_URL, SUPABASE_KEY);
-
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
         let aktualniRetezec = "";
         const displej = document.getElementById('displej-zadane');
 
