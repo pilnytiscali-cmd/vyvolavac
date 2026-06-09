@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ovládání pro kuchyň</title>
+    <script src="https://jsdelivr.net"></script>
+    <style>
+        body { margin: 0; padding: 20px; background-color: #222; color: white; font-family: sans-serif; text-align: center; }
+        .aktualni { font-size: 24px; color: #aaa; margin-bottom: 10px; }
+        .velke-cislo { font-size: 80px; color: #ff9900; font-weight: bold; margin-bottom: 30px; }
+        .klavesnice { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; max-width: 400px; margin: 0 auto; }
+        button { background-color: #444; color: white; border: none; padding: 25px; font-size: 32px; font-weight: bold; border-radius: 10px; cursor: pointer; }
+        button:active { background-color: #666; }
+        button.vymazat { background-color: #990000; }
+        button.odeslat { background-color: #00aa50; grid-column: span 3; padding: 30px; font-size: 36px; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="aktualni">Zadané číslo:</div>
+    <div id="displej-zadane" class="velke-cislo">-</div>
+
+    <div class="klavesnice">
+        <button onclick="stisk(1)">1</button>
+        <button onclick="stisk(2)">2</button>
+        <button onclick="stisk(3)">3</button>
+        <button onclick="stisk(4)">4</button>
+        <button onclick="stisk(5)">5</button>
+        <button onclick="stisk(6)">6</button>
+        <button onclick="stisk(7)">7</button>
+        <button onclick="stisk(8)">8</button>
+        <button onclick="stisk(9)">9</button>
+        <button class="vymazat" onclick="smaz()">C</button>
+        <button onclick="stisk(0)">0</button>
+        <button class="vymazat" onclick="vynulujTV()">X</button>
+        <button class="odeslat" onclick="odeslatDoTV()">VYVOLAT</button>
+    </div>
+
+    <script>
+        const SUPABASE_URL = "https://nemzbtwpwgmpfncllqhd.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_vbZHxBhY0XK3ln33qCPBGg_kHi6NXRE";
+        const supabase = @supabase/supabase-js.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let aktualniRetezec = "";
+        const displej = document.getElementById('displej-zadane');
+
+        function stisk(cislo) {
+            if (aktualniRetezec.length < 3) { // Max 3 cifry
+                aktualniRetezec += cislo;
+                displej.innerText = aktualniRetezec;
+            }
+        }
+
+        function smaz() {
+            aktualniRetezec = "";
+            displej.innerText = "-";
+        }
+
+        async function odeslatDoTV() {
+            if (aktualniRetezec !== "") {
+                const { error } = await supabase.from('vyvolavac').update({ cislo: aktualniRetezec }).eq('id', 1);
+                if (error) alert("Chyba odesílání: " + error.message);
+                smaz();
+            }
+        }
+
+        async function vynulujTV() {
+            await supabase.from('vyvolavac').update({ cislo: '' }).eq('id', 1);
+            smaz();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obrazovka pro zákazníky</title>
+    <!-- Načtení Supabase knihovny -->
+    <script src="https://jsdelivr.net"></script>
+    <style>
+        body { margin: 0; background-color: #111; color: white; font-family: 'Arial Black', sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        .nadpis { font-size: 5vw; color: #888; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 2px; }
+        .cislo { font-size: 35vw; color: #00ff66; line-height: 1; text-shadow: 0 0 50px rgba(0, 255, 102, 0.5); font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="nadpis">Nyní vydáváme číslo</div>
+    <div id="hlavni-cislo" class="cislo">--</div>
+
+    <!-- Zvukový efekt při změně čísla -->
+    <audio id="zvuk" src="https://google.com" preload="auto"></audio>
+
+    <script>
+        const SUPABASE_URL = "https://supabase.co";
+        const SUPABASE_KEY = "sb_publishable_vbZHxBhY0XK3ln33qCPBGg_kHi6NXRE";
+        const supabase = @supabase/supabase-js.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        const displej = document.getElementById('hlavni-cislo');
+        const zvonitko = document.getElementById('zvuk');
+        let stareCislo = "";
+
+        // Funkce pro načtení aktuálního čísla z databáze
+        async function nactiCislo() {
+            const { data, error } = await supabase.from('vyvolavac').select('cislo').eq('id', 1).single();
+            if (data) {
+                aktualizujDisplej(data.cislo);
+            }
+        }
+
+        function aktualizujDisplej(noveCislo) {
+            if (noveCislo !== stareCislo) {
+                displej.innerText = noveCislo || "--";
+                if (stareCislo !== "" && noveCislo !== "") {
+                    zvonitko.play().catch(e => console.log("Pro přehrání zvuku musíte na stránku poprvé kliknout"));
+                }
+                stareCislo = noveCislo;
+            }
+        }
+
+        // Posluchač změn v reálném čase (Realtime)
+        supabase
+            .channel('zmeny-cisla')
+            .on('postgres_changes', { event: 'UPDATE', filter: 'id=eq.1', schema: 'public', table: 'vyvolavac' }, payload => {
+                aktualizujDisplej(pay<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obrazovka pro zákazníky</title>
+    <!-- Načtení Supabase knihovny (Zde byla chyba, adresa musí být celá) -->
+    <script src="https://jsdelivr.net"></script>
+    <style>
+        body { margin: 0; background-color: #111; color: white; font-family: 'Arial Black', sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        .nadpis { font-size: 5vw; color: #888; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 2px; }
+        .cislo { font-size: 35vw; color: #00ff66; line-height: 1; text-shadow: 0 0 50px rgba(0, 255, 102, 0.5); font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="nadpis">Nyní vydáváme číslo</div>
+    <div id="hlavni-cislo" class="cislo">--</div>
+
+    <!-- Funkční zvukový efekt při změně čísla -->
+    <audio id="zvuk" src="https://google.com" preload="auto"></audio>
+
+    <script>
+        // Zde musí být celá adresa s vaším ID
+        const SUPABASE_URL = "https://nemzbtwpwgmpfncllqhd.supabase.co";
+        // Váš správný Publishable Key
+        const SUPABASE_KEY = "sb_publishable_vbZHxBhY0XK3ln33qCPBGg_kHi6NXRE";
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        const displej = document.getElementById('hlavni-cislo');
+        const zvonitko = document.getElementById('zvuk');
+        let stareCislo = "";
+
+        // Funkce pro načtení aktuálního čísla z databáze
+        async function nactiCislo() {
+            const { data, error } = await supabase.from('vyvolavac').select('cislo').eq('id', 1).single();
+            if (data) {
+                aktualizujDisplej(data.cislo);
+            }
+        }
+
+        function aktualizujDisplej(noveCislo) {
+            if (noveCislo !== stareCislo) {
+                displej.innerText = noveCislo || "--";
+                if (stareCislo !== "" && noveCislo !== "") {
+                    zvonitko.play().catch(e => console.log("Pro přehrání zvuku musíte na stránku poprvé kliknout"));
+                }
+                stareCislo = noveCislo;
+            }
+        }
+
+        // Posluchač změn v reálném čase (Realtime)
+        supabase
+            .channel('zmeny-cisla')
+            .on('postgres_changes', { event: 'UPDATE', filter: 'id=eq.1', schema: 'public', table: 'vyvolavac' }, payload => {
+                aktualizujDisplej(payload.new.cislo);
+            })
+            .subscribe();
+
+        // Prvotní načtení při otevření stránky
+        nactiCislo();
+        
+        // Kliknutím kamkoliv na TV stránku povolíte prohlížeči přehrávat zvuk
+        document.body.addEventListener('click', () => { console.log('Zvuky aktivovány'); });
+    </script>
+</body>
+</html>
+load.new.cislo);
+            })
+            .subscribe();
+
+        // Prvotní načtení při otevření stránky
+        nactiCislo();
+        
+        // Kliknutím kamkoliv na TV stránku povolíte prohlížeči přehrávat zvuk
+        document.body.addEventListener('click', () => { console.log('Zvuky aktivovány'); });
+    </script>
+</body>
+</html>
